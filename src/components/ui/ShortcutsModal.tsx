@@ -15,6 +15,7 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ isOpen, onClose }) => {
     { key: '←', desc: 'Previous photo' },
     { key: '→', desc: 'Next photo' },
     { key: 'Cmd + U', desc: 'Upload images' },
+    { key: 'Cmd + K', desc: 'Keyboard shortcuts' },
     { key: 'Shift + S', desc: 'Cycle theme' },
     { key: 'Shift + E', desc: 'Export video' },
   ];

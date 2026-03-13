@@ -63,8 +63,9 @@ export function useKeyboardShortcuts() {
         if (input) input.click();
       }
 
-      // ? or /: Show Shortcuts
-      if (e.key === '?' || (isShift && e.code === 'Slash')) {
+      // ? or / or Cmd+K: Show Shortcuts
+      if (e.key === '?' || (isShift && e.code === 'Slash') || (isMod && e.code === 'KeyK')) {
+        e.preventDefault();
         setShowShortcuts(true);
       }
     };

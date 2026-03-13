@@ -4,7 +4,7 @@ import Topbar from './components/layout/Topbar';
 import Sidebar from './components/layout/Sidebar';
 import ControlPanel from './components/layout/ControlPanel';
 import Canvas from './components/layout/Canvas';
-import PlaybackBar from './components/playback/PlaybackBar';
+import Timeline from './components/layout/Timeline';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import ShortcutsModal from './components/ui/ShortcutsModal';
 
@@ -77,11 +77,12 @@ function App() {
         
         <div className="flex-1 flex flex-col overflow-hidden relative">
           <Canvas />
-          <PlaybackBar />
         </div>
 
         <ControlPanel />
       </div>
+
+      <Timeline />
 
       <ShortcutsModal 
         isOpen={showShortcuts} 

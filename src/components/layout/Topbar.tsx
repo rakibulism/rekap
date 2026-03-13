@@ -95,7 +95,7 @@ const Topbar: React.FC = () => {
           </Tooltip>
         </div>
 
-        <Tooltip content="Keyboard Shortcuts (?)" position="bottom">
+        <Tooltip content="Keyboard Shortcuts (?)" position="left">
           <Button variant="ghost" size="sm" onClick={() => setShowShortcuts(true)} icon={<Keyboard size={18} />} />
         </Tooltip>
 
