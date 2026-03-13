@@ -1,0 +1,47 @@
+/* src/styles/tokens.css */
+
+:root,
+[data-theme="light"] {
+  --color-bg-page: #FFFFFF;
+  --color-bg-panel: #F7F7F7;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-hover: #EBEBEB;
+  --color-border-default: #D4D4D4;
+  --color-border-strong: #8C8C8C;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4B4B4B;
+  --color-text-muted: #8C8C8C;
+  --color-text-inverse: #FFFFFF;
+  --color-interactive: #0A0A0A;
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.12);
+
+  --duration-fast: 100ms;
+  --duration-default: 200ms;
+  --duration-slow: 350ms;
+
+  --easing-default: ease-out;
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] {
+  --color-bg-page: #111111;
+  --color-bg-panel: #1A1A1A;
+  --color-bg-surface: #222222;
+  --color-bg-hover: #2A2A2A;
+  --color-border-default: #2E2E2E;
+  --color-border-strong: #555555;
+  --color-text-primary: #EDEDED;
+  --color-text-secondary: #8C8C8C;
+  --color-text-muted: #555555;
+  --color-text-inverse: #0A0A0A;
+  --color-interactive: #EDEDED;
+}
