@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useRekapStore } from '../../store/rekapStore';
 import Slider from '../ui/Slider';
 import SegmentedControl from '../ui/SegmentedControl';
-import { SpeakerHigh, Trash } from 'phosphor-react';
+import { SpeakerHigh, Trash, MagnifyingGlass, MusicNotes, Plus } from 'phosphor-react';
+import { COMMUNITY_TRACKS } from '../../data/communityAudio';
 
 const ControlPanel: React.FC = () => {
   const { settings, updateSettings, audio, setAudio } = useRekapStore();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredTracks = useMemo(() => {
+    if (!searchQuery) return COMMUNITY_TRACKS;
+    const query = searchQuery.toLowerCase();
+    return COMMUNITY_TRACKS.filter(t => 
+      t.name.toLowerCase().includes(query) || 
+      t.tags.some(tag => tag.includes(query))
+    );
+  }, [searchQuery]);
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="py-6 border-b border-[var(--color-border-default)] last:border-0 px-5">
@@ -150,24 +161,49 @@ const ControlPanel: React.FC = () => {
             <audio src={audio.url} controls className="w-full h-8 scale-90 -mx-2 opacity-80" />
           </div>
         ) : (
-          <div className="text-center py-6 border-2 border-dashed border-[var(--color-border-default)] rounded-[var(--radius-sm)] flex flex-col items-center gap-3 opacity-60">
-            <SpeakerHigh size={24} className="text-[var(--color-text-muted)]" />
-            <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-[var(--color-text-muted)]">No background audio</span>
-              <a 
-                href="https://pixabay.com/music/search/?genre=ambient" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-[10px] text-[var(--color-interactive)] hover:underline font-bold uppercase tracking-wider"
-              >
-                Browse on Pixabay
-              </a>
+          <div className="space-y-4">
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]">
+                <MagnifyingGlass size={14} />
+              </div>
+              <input
+                type="text"
+                placeholder="Search tracks..."
+                className="w-full h-9 pl-9 pr-3 bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] rounded-[var(--radius-sm)] text-[12px] focus:outline-none focus:border-[var(--color-interactive)] placeholder:text-[var(--color-text-muted)]/50"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
+            <div className="max-h-[280px] overflow-y-auto space-y-1 pr-1 custom-scrollbar">
+              {filteredTracks.map((track) => (
+                <button
+                  key={track.id}
+                  onClick={() => setAudio({ url: track.url, name: track.name })}
+                  className="w-full flex items-center gap-3 p-2 rounded-[var(--radius-sm)] hover:bg-[var(--color-bg-hover)] transition-colors text-left group"
+                >
+                  <div className="w-7 h-7 rounded-sm bg-[var(--color-bg-surface)] border border-[var(--color-border-default)] flex items-center justify-center text-[var(--color-text-muted)] group-hover:bg-[var(--color-interactive)] group-hover:text-white transition-colors">
+                    <MusicNotes size={14} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[11px] font-semibold truncate text-[var(--color-text-primary)]">
+                      {track.name}
+                    </div>
+                  </div>
+                  <Plus size={12} className="text-[var(--color-text-muted)] opacity-0 group-hover:opacity-100" />
+                </button>
+              ))}
+              {filteredTracks.length === 0 && (
+                <div className="text-center py-6 text-[11px] text-[var(--color-text-muted)]">
+                  No tracks found for "{searchQuery}"
+                </div>
+              )}
             </div>
           </div>
         )}
-        <div className="mt-3 text-[10px] text-[var(--color-text-muted)] italic px-1 flex items-center gap-1.5">
+        <div className="mt-3 text-[10px] text-[var(--color-text-muted)] italic px-1 flex items-center gap-1.5 border-t border-[var(--color-border-default)] pt-3">
           <div className="w-1 h-1 rounded-full bg-[var(--color-interactive)]" />
-          Tip: Upload music from the sidebar
+          Tip: Select a track to add it to your project
         </div>
       </Section>
     </aside>
