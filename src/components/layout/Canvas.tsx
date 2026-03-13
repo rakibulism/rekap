@@ -53,23 +53,24 @@ const Canvas: React.FC = () => {
   }
 
   return (
-    <main className="flex-1 overflow-hidden relative flex flex-col items-center justify-center p-8 bg-[var(--color-bg-page)]">
+    <main className="flex-1 overflow-hidden relative flex items-center justify-center p-8 bg-[var(--color-bg-page)]">
       {/* Aspect Ratio Container */}
       <div 
-        className="w-full max-w-full max-h-full relative shadow-[var(--shadow-md)] bg-white overflow-hidden origin-center transition-all duration-300"
+        className="w-full h-full relative shadow-[var(--shadow-md)] bg-white overflow-hidden transition-all duration-300 flex items-center justify-center"
         style={{ 
-          maxHeight: 'calc(100% - 40px)',
-          width: 'auto',
-          height: 'auto',
-          aspectRatio: settings.aspectRatio.split(':').join(' / ')
+          maxWidth: '100%',
+          maxHeight: '100%',
+          aspectRatio: settings.aspectRatio.split(':').join(' / '),
+          height: 'auto', // Allow aspectRatio to determine one dimension
         }}
       >
         {/* Background Layer */}
         {settings.backgroundMode === 'slide' && currentPhoto && (
           <div className="absolute inset-0 z-0">
             <img 
+              key={`bg-${currentPhoto.id}`}
               src={currentPhoto.objectUrl} 
-              className="w-full h-full object-cover scale-110" 
+              className="w-full h-full object-cover scale-110 animate-in fade-in duration-500" 
               style={{ filter: `blur(${settings.backgroundBlur}px)` }}
             />
             <div 
@@ -85,12 +86,13 @@ const Canvas: React.FC = () => {
 
         {/* Photo Frame */}
         <div 
-          className="absolute inset-0 z-10 flex items-center justify-center"
+          className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
           style={{ padding: `${settings.padding}px` }}
         >
           {currentPhoto && (
             <div 
-              className="relative w-full h-full overflow-hidden transition-all duration-300"
+              key={`frame-${currentPhoto.id}`}
+              className="relative w-full h-full overflow-hidden transition-all duration-300 animate-in zoom-in-95 fade-in duration-300"
               style={{ 
                 borderRadius: `${settings.borderRadius}px`,
                 boxShadow: settings.shadow > 0 ? `0 ${settings.shadow/2}px ${settings.shadow}px rgba(0,0,0,0.2)` : 'none'

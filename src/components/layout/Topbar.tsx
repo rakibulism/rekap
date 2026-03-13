@@ -34,7 +34,22 @@ const Topbar: React.FC = () => {
         />
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
+        <div className="flex items-center bg-[var(--color-bg-hover)] rounded-[var(--radius-sm)] p-1">
+          {(['1x', '2x'] as const).map((q) => (
+            <button
+              key={q}
+              onClick={() => updateSettings({ exportQuality: q })}
+              className={`px-2 h-6 text-[11px] font-medium rounded-[2px] transition-all
+                ${settings.exportQuality === q 
+                  ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' 
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'}`}
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+
         <Button
           variant="ghost"
           size="sm"
@@ -48,9 +63,9 @@ const Topbar: React.FC = () => {
           icon={<Export size={18} weight="bold" />}
           onClick={startExport}
           disabled={isExporting}
+          className="min-w-[100px]"
         >
-          {isExporting ? `Exporting ${exportProgress}%` : 'Export'}
-          {!isExporting && <span className="ml-1 opacity-50 font-normal">{settings.exportQuality}</span>}
+          {isExporting ? `${exportProgress}%` : 'Export'}
         </Button>
       </div>
     </header>

@@ -37,23 +37,19 @@ const Slider: React.FC<SliderProps> = ({
           step={step}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="w-full h-[3px] bg-[var(--color-bg-hover)] rounded-full appearance-none cursor-pointer outline-none transition-all
-            accent-[var(--color-interactive)]
-            [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:w-3.5
-            [&::-webkit-slider-thumb]:h-3.5
-            [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-white
-            [&::-webkit-slider-thumb]:border-2
-            [&::-webkit-slider-thumb]:border-[var(--color-interactive)]
-            [&::-webkit-slider-thumb]:shadow-[var(--shadow-xs)]
-            [&::-webkit-slider-thumb]:transition-transform
-            [&::-webkit-slider-thumb]:active:scale-110"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
         />
-        {/* Fill track (optional, tailwind accent usually handles it but for precise design:) */}
+        {/* Track Background */}
+        <div className="w-full h-[3px] bg-[var(--color-bg-hover)] rounded-full overflow-hidden">
+          <div 
+            className="h-full bg-[var(--color-interactive)] rounded-full"
+            style={{ width: `${((value - min) / (max - min)) * 100}%` }}
+          />
+        </div>
+        {/* Thumb */}
         <div 
-          className="absolute left-0 h-[3px] bg-[var(--color-interactive)] rounded-full pointer-events-none"
-          style={{ width: `${((value - min) / (max - min)) * 100}%` }}
+          className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white border-2 border-[var(--color-interactive)] shadow-[var(--shadow-xs)] pointer-events-none transition-transform group-active:scale-110"
+          style={{ left: `calc(${((value - min) / (max - min)) * 100}% - 7px)` }}
         />
       </div>
     </div>
