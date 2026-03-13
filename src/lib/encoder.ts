@@ -25,7 +25,7 @@ async function loadFFmpeg() {
  */
 export async function exportToMp4(
   frameBlobs: Blob[],
-  fps: number,
+  inputFramerate: number,
   onProgress: (p: number) => void
 ): Promise<Blob> {
   const instance = await loadFFmpeg();
@@ -42,15 +42,18 @@ export async function exportToMp4(
   }
 
   // Run FFmpeg command
-  // -r: frame rate
+  // -framerate 1/duration: treat input images as having this framerate
   // -i: input pattern
-  // -c:v: video codec
-  // -pix_fmt: pixel format (required for some players)
+  // -c:v libx264: H.264 codec
+  // -r 30: fixed output framerate (important for compatibility)
+  // -preset ultrafast: fastest encoding (slightly larger file size but much better speed)
   await instance.exec([
-    '-r', fps.toString(),
+    '-framerate', inputFramerate.toString(),
     '-i', 'frame%05d.png',
     '-c:v', 'libx264',
+    '-preset', 'ultrafast',
     '-pix_fmt', 'yuv420p',
+    '-r', '30',
     'output.mp4'
   ]);
 

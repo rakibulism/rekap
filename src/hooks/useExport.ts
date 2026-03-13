@@ -18,7 +18,6 @@ export function useExport() {
     setError(null);
 
     try {
-      const fps = 30;
       const frameBlobs: Blob[] = [];
       const canvas = document.createElement('canvas');
       
@@ -33,7 +32,7 @@ export function useExport() {
 
       const dim = resolutions[settings.aspectRatio];
       
-      // 1. Render frames
+      // 1. Render frames (One frame per photo)
       for (let i = 0; i < photos.length; i++) {
         await renderFrame(canvas, photos[i], settings, { width: dim.w, height: dim.h });
         
@@ -41,19 +40,15 @@ export function useExport() {
           canvas.toBlob((b) => resolve(b!), 'image/png')
         );
 
-        // For each slide, we need (duration * fps) number of frames
-        const slideFrames = Math.max(1, Math.round(settings.duration * fps));
-        for (let j = 0; j < slideFrames; j++) {
-          frameBlobs.push(blob);
-        }
-
-        setExportProgress(Math.round(((i + 1) / photos.length) * 30)); // Rendering is roughly 30% of work
+        frameBlobs.push(blob);
+        setExportProgress(Math.round(((i + 1) / photos.length) * 10)); // Rendering is now very fast
       }
 
-      // 2. Encode to MP4
-      const videoBlob = await exportToMp4(frameBlobs, fps, (progress) => {
-        // Encoding is the remaining 70%
-        setExportProgress(30 + Math.round(progress * 0.7));
+      // 2. Encode to MP4 (Using FFmpeg framerate to control duration)
+      const inputFramerate = 1 / settings.duration;
+      const videoBlob = await exportToMp4(frameBlobs, inputFramerate, (progress) => {
+        // Encoding is the main work now
+        setExportProgress(10 + Math.round(progress * 0.9));
       });
 
       // 3. Download
