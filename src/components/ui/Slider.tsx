@@ -26,24 +26,26 @@ const Slider: React.FC<SliderProps> = ({
           <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--color-text-muted)]">
             {label}
           </label>
-          <span className="text-[13px] tabular-nums text-[var(--color-text-primary)]">
-            {value}{unit}
-          </span>
         </div>
       )}
-      <div className="relative flex items-center h-6 group">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(parseFloat(e.target.value))}
-          style={{
-            background: `linear-gradient(to right, var(--color-interactive) 0%, var(--color-interactive) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
-          }}
-          className="rekap-slider"
-        />
+      <div className="flex items-center gap-3 h-6 group">
+        <div className="relative flex-1 flex items-center h-full">
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={step}
+            value={value}
+            onChange={(e) => onChange(parseFloat(e.target.value))}
+            style={{
+              background: `linear-gradient(to right, var(--color-interactive) 0%, var(--color-interactive) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
+            }}
+            className="rekap-slider"
+          />
+        </div>
+        <span className="text-[12px] tabular-nums font-bold text-[var(--color-text-primary)] w-10 text-right shrink-0">
+          {value}{unit}
+        </span>
       </div>
     </div>
   );

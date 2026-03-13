@@ -24,6 +24,8 @@ export function useKeyboardShortcuts() {
 
       // Space: Play/Pause
       if (e.code === 'Space') {
+        const active = document.activeElement;
+        if (active instanceof HTMLElement) active.blur();
         e.preventDefault();
         setPlaying(!isPlaying);
       }

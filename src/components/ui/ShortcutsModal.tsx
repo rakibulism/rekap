@@ -16,9 +16,20 @@ const ShortcutsModal: React.FC<ShortcutsModalProps> = ({ isOpen, onClose }) => {
     { key: '→', desc: 'Next photo' },
     { key: 'Cmd + U', desc: 'Upload images' },
     { key: 'Cmd + K', desc: 'Keyboard shortcuts' },
+    { key: '?', desc: 'Show shortcuts' },
     { key: 'Shift + S', desc: 'Cycle theme' },
     { key: 'Shift + E', desc: 'Export video' },
+    { key: 'Esc', desc: 'Close this modal' },
   ];
+
+  React.useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   return (
     <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
