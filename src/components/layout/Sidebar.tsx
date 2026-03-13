@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className="w-[64px] border-r border-[var(--color-border-default)] flex flex-col bg-[var(--color-bg-panel)] overflow-visible relative z-30">
+    <aside className="w-[64px] border-r border-[var(--color-border-default)] flex flex-col bg-[var(--color-bg-panel)] relative z-30">
       <div className="flex-1 flex flex-col items-center py-4 gap-6">
         <div className="flex flex-col items-center gap-2">
           <label className="cursor-pointer">

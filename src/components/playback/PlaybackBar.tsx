@@ -16,20 +16,24 @@ const PlaybackBar: React.FC = () => {
   return (
     <div className="h-11 border-t border-[var(--color-border-default)] flex items-center justify-between bg-[var(--color-bg-page)] px-4 select-none">
       <div className="flex items-center gap-4 w-48">
-        <Tooltip content="Playback Speed">
-          <div className="flex items-center gap-2 w-full">
+        <div className="flex items-center gap-2 w-full">
+          <Tooltip content="Speed Modifier">
             <Gauge size={16} className="text-[var(--color-text-muted)]" />
-            <Slider
-              label=""
-              min={0.5}
-              max={2}
-              step={0.1}
-              value={playbackSpeed}
-              onChange={setPlaybackSpeed}
-              unit="x"
-            />
-          </div>
-        </Tooltip>
+          </Tooltip>
+          <Tooltip content={`${playbackSpeed}x Speed`} position="top">
+            <div className="flex-1">
+              <Slider
+                label=""
+                min={0.5}
+                max={2}
+                step={0.1}
+                value={playbackSpeed}
+                onChange={setPlaybackSpeed}
+                unit="x"
+              />
+            </div>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="flex items-center gap-1">
