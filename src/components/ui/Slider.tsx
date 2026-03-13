@@ -37,19 +37,32 @@ const Slider: React.FC<SliderProps> = ({
           step={step}
           value={value}
           onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-        />
-        {/* Track Background */}
-        <div className="w-full h-[3px] bg-[var(--color-bg-hover)] rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-[var(--color-interactive)] rounded-full"
-            style={{ width: `${((value - min) / (max - min)) * 100}%` }}
-          />
-        </div>
-        {/* Thumb */}
-        <div 
-          className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white border-2 border-[var(--color-interactive)] shadow-[var(--shadow-xs)] pointer-events-none transition-transform group-active:scale-110"
-          style={{ left: `calc(${((value - min) / (max - min)) * 100}% - 7px)` }}
+          style={{
+            background: `linear-gradient(to right, var(--color-interactive) 0%, var(--color-interactive) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
+          }}
+          className="w-full h-[3px] appearance-none cursor-pointer outline-none rounded-full
+            [&::-webkit-slider-thumb]:appearance-none
+            [&::-webkit-slider-thumb]:w-3.5
+            [&::-webkit-slider-thumb]:h-3.5
+            [&::-webkit-slider-thumb]:rounded-full
+            [&::-webkit-slider-thumb]:bg-white
+            [&::-webkit-slider-thumb]:border-2
+            [&::-webkit-slider-thumb]:border-[var(--color-interactive)]
+            [&::-webkit-slider-thumb]:shadow-[var(--shadow-xs)]
+            [&::-webkit-slider-thumb]:transition-transform
+            [&::-webkit-slider-thumb]:hover:scale-110
+            [&::-webkit-slider-thumb]:active:scale-120
+            
+            [&::-moz-range-thumb]:appearance-none
+            [&::-moz-range-thumb]:w-3.5
+            [&::-moz-range-thumb]:h-3.5
+            [&::-moz-range-thumb]:rounded-full
+            [&::-moz-range-thumb]:bg-white
+            [&::-moz-range-thumb]:border-2
+            [&::-moz-range-thumb]:border-[var(--color-interactive)]
+            [&::-moz-range-thumb]:shadow-[var(--shadow-xs)]
+            [&::-moz-range-thumb]:border-none
+          "
         />
       </div>
     </div>
