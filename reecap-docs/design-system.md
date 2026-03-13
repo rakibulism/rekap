@@ -1,11 +1,11 @@
-# Rekap — Design System
+# Reecap — Design System
 **Version 1.0 | Light Mode First**
 
 ---
 
 ## 1. Brand Identity
 
-**Product Name:** Rekap  
+**Product Name:** Reecap  
 **Tagline:** *Your week. In motion.*  
 **Audience:** Busy designers & developers who want to ship weekly recaps without touching a video editor.  
 **Personality:** Focused. Minimal. Tool-like. No performance, no fluff.  

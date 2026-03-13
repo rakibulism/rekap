@@ -1,11 +1,11 @@
-# Rekap — Feature List
+# Reecap — Feature List
 **Version 1.0 — Product Definition**
 
 ---
 
 ## Overview
 
-Rekap is a browser-based tool that turns a batch of uploaded photos into an animated video recap. No timeline editing. No keyframes. Upload → tweak → export.
+Reecap is a browser-based tool that turns a batch of uploaded photos into an animated video recap. No timeline editing. No keyframes. Upload → tweak → export.
 
 **Core user flow:**
 ```
@@ -203,7 +203,7 @@ Upload Photos → Reorder → Customize → Preview → Export
 | Default quality   | 2×                                                 |
 | Entry point       | Top-right `Export` button with quality badge       |
 | Quality picker    | Dropdown via caret icon on the button              |
-| Filename          | `rekap-export-YYYYMMDD.mp4`                        |
+| Filename          | `reecap-export-YYYYMMDD.mp4`                        |
 | Progress          | Button changes to `Exporting…` with progress %     |
 | Completion        | Toast + auto-download trigger                      |
 

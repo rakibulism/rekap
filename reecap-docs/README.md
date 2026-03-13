@@ -1,13 +1,13 @@
-# Rekap
+# Reecap
 ### *Your week. In motion.*
 
 ---
 
-## What is Rekap?
+## What is Reecap?
 
-Rekap is a lightweight, browser-based tool for designers and developers who want to create polished weekly photo recaps — without touching a video editor.
+Reecap is a lightweight, browser-based tool for designers and developers who want to create polished weekly photo recaps — without touching a video editor.
 
-Upload your screenshots, design previews, or work-in-progress photos. Rekap turns them into a smooth animated slideshow you can export as a video in seconds.
+Upload your screenshots, design previews, or work-in-progress photos. Reecap turns them into a smooth animated slideshow you can export as a video in seconds.
 
 **No timelines. No keyframes. No fuss.**
 
@@ -28,7 +28,7 @@ Upload your screenshots, design previews, or work-in-progress photos. Rekap turn
 
 > "I have great work to show. I don't have time to animate it."
 
-Rekap solves this with a 3-step flow: **Upload → Adjust → Export.**
+Reecap solves this with a 3-step flow: **Upload → Adjust → Export.**
 
 ---
 
@@ -59,21 +59,21 @@ Rekap solves this with a 3-step flow: **Upload → Adjust → Export.**
 
 ## Competitive Context
 
-| Product     | What it does                    | Rekap's angle                      |
+| Product     | What it does                    | Reecap's angle                      |
 |-------------|---------------------------------|------------------------------------|
-| Pixlo       | Photo slideshow tool            | Similar, but Rekap is cleaner, no-distraction design tool |
+| Pixlo       | Photo slideshow tool            | Similar, but Reecap is cleaner, no-distraction design tool |
 | Canva       | Full design suite               | Too heavy, too general             |
 | CapCut      | Mobile video editor             | Too complex, mobile-first          |
 | Loom        | Screen recording tool           | Video capture, not photo recap     |
 | PowerPoint  | Presentations                   | Export friction, not designed for sharing |
 
-**Rekap's positioning:** The fastest way for working designers and devs to turn work photos into shareable video — in under 60 seconds.
+**Reecap's positioning:** The fastest way for working designers and devs to turn work photos into shareable video — in under 60 seconds.
 
 ---
 
 ## Design Philosophy
 
-Rekap's UI is invisible. The user's photos are the hero.
+Reecap's UI is invisible. The user's photos are the hero.
 
 The interface follows the same principles as Linear, Notion, and Raycast:
 - **No color** in the UI shell — only black, white, and gray
@@ -81,7 +81,7 @@ The interface follows the same principles as Linear, Notion, and Raycast:
 - **Minimal radius** — clean corners, not bubbles
 - **Typography is content** — clear hierarchy, no flair
 
-The goal: open Rekap, and the first thing you notice is your own photos — not the tool.
+The goal: open Reecap, and the first thing you notice is your own photos — not the tool.
 
 ---
 

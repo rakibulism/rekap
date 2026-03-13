@@ -1,11 +1,11 @@
-# Rekap — Developer Guide
+# Reecap — Developer Guide
 **Version 1.0**
 
 ---
 
 ## 1. Project Overview
 
-Rekap is a browser-based tool that converts uploaded photos into an animated video recap. It runs entirely client-side — no backend required for v1. All processing (canvas rendering, video encoding) happens in the user's browser.
+Reecap is a browser-based tool that converts uploaded photos into an animated video recap. It runs entirely client-side — no backend required for v1. All processing (canvas rendering, video encoding) happens in the user's browser.
 
 ---
 
@@ -29,7 +29,7 @@ Rekap is a browser-based tool that converts uploaded photos into an animated vid
 ## 3. Project Structure
 
 ```
-rekap/
+reecap/
 ├── public/
 │   └── favicon.svg
 ├── src/
@@ -45,7 +45,7 @@ rekap/
 │   │   ├── usePreview.ts
 │   │   └── useSettings.ts
 │   ├── store/
-│   │   └── rekapStore.ts    # Zustand store
+│   │   └── reecapStore.ts    # Zustand store
 │   ├── lib/
 │   │   ├── renderer.ts      # Canvas frame rendering logic
 │   │   ├── encoder.ts       # FFmpeg video encoding wrapper
@@ -127,7 +127,7 @@ document.documentElement.setAttribute('data-theme', theme);
 ## 5. Zustand Store Structure
 
 ```typescript
-// src/store/rekapStore.ts
+// src/store/reecapStore.ts
 
 interface Photo {
   id: string;
@@ -137,7 +137,7 @@ interface Photo {
   height: number;
 }
 
-interface RekapSettings {
+interface ReecapSettings {
   duration: number;        // seconds per slide (0.2–5.0)
   transition: 'fade' | 'slide' | 'zoom' | 'none';
   aspectRatio: '16:9' | '4:3' | '5:4' | '1:1' | '9:16';
@@ -152,10 +152,10 @@ interface RekapSettings {
   exportQuality: '1x' | '2x';
 }
 
-interface RekapStore {
+interface ReecapStore {
   photos: Photo[];
   activeIndex: number;
-  settings: RekapSettings;
+  settings: ReecapSettings;
   theme: 'light' | 'dark';
   isPlaying: boolean;
   isExporting: boolean;
@@ -165,7 +165,7 @@ interface RekapStore {
   removePhoto: (id: string) => void;
   reorderPhotos: (from: number, to: number) => void;
   setActiveIndex: (index: number) => void;
-  updateSettings: (patch: Partial<RekapSettings>) => void;
+  updateSettings: (patch: Partial<ReecapSettings>) => void;
   toggleTheme: () => void;
   setPlaying: (v: boolean) => void;
   startExport: () => void;
@@ -199,7 +199,7 @@ Each "frame" in the preview and export is rendered on an HTML5 Canvas.
 export async function renderFrame(
   canvas: HTMLCanvasElement,
   photo: Photo,
-  settings: RekapSettings,
+  settings: ReecapSettings,
   dimensions: { width: number; height: number }
 ): Promise<void>
 ```
@@ -208,7 +208,7 @@ export async function renderFrame(
 
 ## 7. Video Export (FFmpeg WASM)
 
-Rekap uses `@ffmpeg/ffmpeg` with WASM for in-browser video encoding.
+Reecap uses `@ffmpeg/ffmpeg` with WASM for in-browser video encoding.
 
 ### Setup
 
@@ -288,7 +288,7 @@ const handleFiles = (files: FileList) => {
 
 ```typescript
 // src/hooks/useSettings.ts
-const saved = localStorage.getItem('rekap-theme') as 'light' | 'dark' | null;
+const saved = localStorage.getItem('reecap-theme') as 'light' | 'dark' | null;
 const initial = saved ?? 'light';
 ```
 
@@ -371,7 +371,7 @@ export default defineConfig({
 
 ## 15. Deployment
 
-Rekap is a static SPA. Deploy to any static host:
+Reecap is a static SPA. Deploy to any static host:
 
 - **Vercel:** `vercel --prod` (add COOP/COEP headers in `vercel.json`)
 - **Netlify:** Add `_headers` file with COOP/COEP

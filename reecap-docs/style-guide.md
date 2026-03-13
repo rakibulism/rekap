@@ -1,11 +1,11 @@
-# Rekap — Style Guide
+# Reecap — Style Guide
 **Version 1.0**
 
 ---
 
 ## 1. Brand Voice
 
-Rekap talks like a sharp tool, not a startup.
+Reecap talks like a sharp tool, not a startup.
 
 | Do                                  | Don't                                        |
 |--------------------------------------|----------------------------------------------|
@@ -20,7 +20,7 @@ Rekap talks like a sharp tool, not a startup.
 
 ## 2. Logo & Wordmark
 
-- **Wordmark:** `Rekap` — Inter, 600 weight, `--color-black`
+- **Wordmark:** `Reecap` — Inter, 600 weight, `--color-black`
 - **No icon/logomark required at v1** — the wordmark alone is the logo
 - **Minimum clear space:** 16px on all sides
 - **Never apply color, gradient, or shadow to the wordmark**
@@ -73,7 +73,7 @@ Rekap talks like a sharp tool, not a startup.
 
 ## 6. Imagery & Media Style
 
-The photos inside Rekap are the hero. The UI should disappear.
+The photos inside Reecap are the hero. The UI should disappear.
 
 - Canvas background: white or very light gray — never colored
 - Photo frames: `--radius-lg` (8px) — the only "soft" element in the UI
@@ -159,7 +159,7 @@ Used when no photos are uploaded yet.
 
 ## 11. Responsive Behavior
 
-Rekap is primarily a desktop web tool. Mobile is not a priority at v1.
+Reecap is primarily a desktop web tool. Mobile is not a priority at v1.
 
 | Breakpoint | Behavior                                              |
 |------------|------------------------------------------------------|
