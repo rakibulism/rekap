@@ -6,13 +6,16 @@ import ControlPanel from './components/layout/ControlPanel';
 import Canvas from './components/layout/Canvas';
 import Timeline from './components/layout/Timeline';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import MainSidebar from './components/layout/MainSidebar';
+import CommunityHub from './components/community/CommunityHub';
 import ShortcutsModal from './components/ui/ShortcutsModal';
 
 function App() {
-  const { 
-    theme, isPlaying, photos, activeIndex, setActiveIndex, 
+  const {
+    theme, isPlaying, photos, activeIndex, setActiveIndex,
     settings, playbackSpeed, setPlaybackProgress,
-    showShortcuts, setShowShortcuts 
+    showShortcuts, setShowShortcuts,
+    activeView
   } = useRekapStore();
 
   useKeyboardShortcuts();
@@ -70,19 +73,26 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-[var(--color-bg-page)] text-[var(--color-text-primary)] overflow-hidden font-sans">
+      <MainSidebar />
       <Topbar />
       
-      <div className="flex flex-1 overflow-hidden">
-        <Sidebar />
-        
-        <div className="flex-1 flex flex-col overflow-hidden relative">
-          <Canvas />
-        </div>
+      {activeView === 'editor' ? (
+        <>
+          <div className="flex flex-1 overflow-hidden">
+            <Sidebar />
+            
+            <div className="flex-1 flex flex-col overflow-hidden relative">
+              <Canvas />
+            </div>
 
-        <ControlPanel />
-      </div>
+            <ControlPanel />
+          </div>
 
-      <Timeline />
+          <Timeline />
+        </>
+      ) : (
+        <CommunityHub />
+      )}
 
       <ShortcutsModal 
         isOpen={showShortcuts} 

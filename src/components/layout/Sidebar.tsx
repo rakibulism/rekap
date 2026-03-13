@@ -1,6 +1,10 @@
 import React from 'react';
 import { useRekapStore } from '../../store/rekapStore';
-import { Plus, Image as ImageIcon, MusicNote } from 'phosphor-react';
+import { 
+  Image as ImageIcon, 
+  MusicNotes, 
+  Plus
+} from 'phosphor-react';
 import { processFiles } from '../../lib/utils';
 import Tooltip from '../ui/Tooltip';
 
@@ -71,7 +75,7 @@ const Sidebar: React.FC = () => {
             />
             <Tooltip content={audio ? `Audio: ${audio.name}` : "Add Audio"} position="right">
               <div className={`w-10 h-10 rounded-[var(--radius-sm)] flex items-center justify-center border-2 border-dashed ${audio ? 'border-[var(--color-interactive)] bg-[var(--color-interactive)] text-white' : 'border-[var(--color-border-default)] hover:border-[var(--color-interactive)] hover:text-[var(--color-interactive)]'} transition-all cursor-pointer`}>
-                <MusicNote size={20} weight={audio ? "fill" : "regular"} />
+                <MusicNotes size={20} weight={audio ? "fill" : "regular"} />
               </div>
             </Tooltip>
           </label>

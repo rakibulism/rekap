@@ -40,11 +40,11 @@
   }
 
   .rekap-slider::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 rounded-full bg-white border-2 border-[var(--color-interactive)] shadow-[var(--shadow-sm)] transition-transform -mt-[5px] relative z-20;
+    @apply appearance-none w-4 h-4 rounded-full bg-white border-2 border-blue-500 shadow-[var(--shadow-sm)] transition-transform -mt-[5px] relative z-20;
   }
 
   .rekap-slider:active::-webkit-slider-thumb {
-    @apply scale-125 bg-[var(--color-interactive)] border-white;
+    @apply scale-125 bg-blue-500 border-white;
   }
 
   .rekap-slider::-moz-range-thumb {

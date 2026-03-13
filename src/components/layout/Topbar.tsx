@@ -1,6 +1,15 @@
 import React from 'react';
 import { useRekapStore } from '../../store/rekapStore';
-import { Sun, Moon, Export, GithubLogo, TwitterLogo, Keyboard, Monitor } from 'phosphor-react';
+import { 
+  Sun, 
+  Moon, 
+  Export, 
+  GithubLogo, 
+  TwitterLogo, 
+  Keyboard, 
+  Monitor,
+  List
+} from 'phosphor-react';
 import Button from '../ui/Button';
 import SegmentedControl from '../ui/SegmentedControl';
 import Tooltip from '../ui/Tooltip';
@@ -9,7 +18,8 @@ import { useExport } from '../../hooks/useExport';
 const Topbar: React.FC = () => {
   const { 
     theme, setTheme, settings, updateSettings, 
-    isExporting, exportProgress, setShowShortcuts 
+    isExporting, exportProgress, setShowShortcuts,
+    toggleSidebar
   } = useRekapStore();
   const { startExport } = useExport();
 
@@ -23,8 +33,15 @@ const Topbar: React.FC = () => {
 
   return (
     <header className="h-12 border-b border-[var(--color-border-default)] flex items-center justify-between px-4 bg-[var(--color-bg-page)] z-10">
-      <div className="flex items-center gap-4">
-        <span className="text-[16px] font-semibold text-[var(--color-text-primary)] tracking-tight mr-2">
+      <div className="flex items-center gap-2">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={toggleSidebar} 
+          icon={<List size={22} weight="bold" />} 
+          className="mr-1"
+        />
+        <span className="text-[16px] font-bold text-[var(--color-text-primary)] tracking-tight">
           Rekap
         </span>
         <div className="flex items-center gap-1 border-l border-[var(--color-border-default)] pl-4">

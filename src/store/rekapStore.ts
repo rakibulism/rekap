@@ -12,8 +12,11 @@ interface RekapStore {
   isExporting: boolean;
   exportProgress: number;
   playbackProgress: number;
-
   audio: { url: string; name: string } | null;
+  activeView: 'editor' | 'community';
+  isSidebarOpen: boolean;
+  isPremium: boolean;
+  inviteCount: number;
 
   // Actions
   addPhotos: (newPhotos: Photo[]) => void;
@@ -29,6 +32,10 @@ interface RekapStore {
   setPlaybackProgress: (p: number | ((prev: number) => number)) => void;
   setShowShortcuts: (show: boolean) => void;
   setAudio: (audio: { url: string; name: string } | null) => void;
+  toggleSidebar: () => void;
+  setActiveView: (view: 'editor' | 'community') => void;
+  setPremium: (v: boolean) => void;
+  addInvite: () => void;
 }
 
 export const useRekapStore = create<RekapStore>((set) => ({
@@ -55,8 +62,11 @@ export const useRekapStore = create<RekapStore>((set) => ({
   isExporting: false,
   exportProgress: 0,
   playbackProgress: 0,
-
   audio: null,
+  activeView: 'editor',
+  isSidebarOpen: false,
+  isPremium: false,
+  inviteCount: 0,
 
   addPhotos: (newPhotos) =>
     set((state) => ({
@@ -109,4 +119,8 @@ export const useRekapStore = create<RekapStore>((set) => ({
       playbackProgress: typeof p === 'function' ? p(state.playbackProgress) : p 
     })),
   setAudio: (audio) => set({ audio }),
+  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+  setActiveView: (view) => set({ activeView: view }),
+  setPremium: (v) => set({ isPremium: v }),
+  addInvite: () => set((state) => ({ inviteCount: state.inviteCount + 1 })),
 }));
