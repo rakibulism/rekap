@@ -7,37 +7,70 @@ import {
   PlayCircle
 } from 'phosphor-react';
 
-// Mock templates and audio based on the discovered files
+// Mock templates and audio based on the new ctems structure
 const TEMPLATES = [
   { 
     id: 't1', 
-    title: 'Blue Ballad', 
+    title: 'Nature Wild', 
     type: 'template', 
     category: 'templates',
-    preview: '/src/pro/comm-templates/images/davidclode-chameleon-10097021_1920.jpg',
-    audio: 'alec_koff-blues-ballad-487408.mp3'
+    preview: '/pro/ctems/Nature/davidclode-chameleon-10097021_1920.jpg',
+    images: [
+      '/pro/ctems/Nature/wal_172619-branch-10083881_1920.jpg',
+      '/pro/ctems/Nature/davidclode-chameleon-10097021_1920.jpg',
+      '/pro/ctems/Nature/neelam279-hydrangeas-9990890_1920.jpg',
+      '/pro/ctems/Nature/maranthi-iguana-10089944_1920.jpg',
+      '/pro/ctems/Nature/arminep-tiger-7258795_1920.jpg'
+    ],
+    audioUrl: '/pro/ctems/Nature/aberrantrealities-organic-flow-1015-remastered-485950.mp3'
   },
   { 
     id: 't2', 
-    title: 'Organic Flow', 
+    title: 'Cozy Pets', 
     type: 'template', 
     category: 'templates',
-    preview: '/src/pro/comm-templates/images/bin-rui-natural-10003071_1920.jpg',
-    audio: 'aberrantrealities-organic-flow-1015-remastered-485950.mp3'
+    preview: '/pro/ctems/Pets/bernhardjaeck-cat-10082073_1920.jpg',
+    images: [
+      '/pro/ctems/Pets/ddzphoto-fisherman-10086224_1920.jpg',
+      '/pro/ctems/Pets/bernhardjaeck-cat-10082073_1920.jpg',
+      '/pro/ctems/Pets/melanimarfeld-cat-7498362_1920.jpg',
+      '/pro/ctems/Pets/drosera74-sheep-10074422_1920.jpg'
+    ],
+    audioUrl: '/pro/ctems/Pets/penguinmusic-lazy-day-stylish-futuristic-chill-239287.mp3'
+  },
+  {
+    id: 't3',
+    title: 'Urban Morning',
+    type: 'template',
+    category: 'templates',
+    preview: '/pro/ctems/Urban/purgin_alexandr-morning-9911961_1920.jpg',
+    images: [
+      '/pro/ctems/Urban/ruslansikunov-flowers-10063876_1920.jpg',
+      '/pro/ctems/Urban/purgin_alexandr-morning-9911961_1920.jpg',
+      '/pro/ctems/Urban/edyttka1388-feathery-cosmos-9516583_1920.jpg',
+      '/pro/ctems/Urban/ruslansikunov-chamomile-10084408_1920.jpg'
+    ],
+    audioUrl: '/pro/ctems/Urban/kornevmusic-upbeat-happy-corporate-487426.mp3'
+  },
+  {
+    id: 't4',
+    title: 'Abstract Flow',
+    type: 'template',
+    category: 'templates',
+    preview: '/pro/ctems/Abstract/ri1yad-abstract-8944153_1920.jpg',
+    images: [
+      '/pro/ctems/Abstract/ri1yad-abstract-8944153_1920.jpg',
+      '/pro/ctems/Abstract/swidaalba-autumn-9948175_1920.jpg',
+      '/pro/ctems/Abstract/bin-rui-natural-10003071_1920.jpg'
+    ],
+    audioUrl: '/pro/ctems/Abstract/nveravetyanmusic-stylish-deep-electronic-262632.mp3'
   },
   {
     id: 'a1',
     title: 'Epic Motivation',
     type: 'audio',
     category: 'audio',
-    audio: 'kornevmusic-epic-478847.mp3'
-  },
-  {
-    id: 'a2',
-    title: 'Lazy Day LoFi',
-    type: 'audio',
-    category: 'audio',
-    audio: 'penguinmusic-lazy-day-stylish-futuristic-chill-239287.mp3'
+    audioUrl: '/pro/ctems/Nature/aberrantrealities-organic-flow-1015-remastered-485950.mp3' // Re-using for audio tab
   }
 ];
 
@@ -56,19 +89,20 @@ const CommunityHub: React.FC = () => {
 
   const handleSelect = (item: any) => {
     if (item.type === 'audio') {
-      setAudio({ url: `/src/pro/comm-templates/audio/${item.audio}`, name: item.title });
+      setAudio({ url: item.audioUrl, name: item.title });
     } else {
-      // Load template (mocking photo adding)
-      const mockPhoto = {
-        id: Math.random().toString(),
-        objectUrl: item.preview,
-        name: item.title,
-        file: new File([], item.title),
+      // Load template images
+      const nextPhotos = item.images.map((url: string, index: number) => ({
+        id: `temp-${item.id}-${index}-${Date.now()}`,
+        objectUrl: url,
+        name: `${item.title} ${index + 1}`,
+        file: new File([], `${item.title} ${index + 1}`),
         width: 1920,
         height: 1080
-      };
-      addPhotos([mockPhoto]);
-      setAudio({ url: `/src/pro/comm-templates/audio/${item.audio}`, name: item.title });
+      }));
+      
+      addPhotos(nextPhotos);
+      setAudio({ url: item.audioUrl, name: item.title });
     }
     setActiveView('editor');
   };
