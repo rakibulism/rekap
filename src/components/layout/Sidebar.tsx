@@ -120,13 +120,16 @@ const Sidebar: React.FC = () => {
       </div>
 
       <div className="p-3 border-t border-[var(--color-border-default)]">
-        <label className="block">
+        <label className="block cursor-pointer">
           <input
             type="file"
             multiple
             accept="image/jpeg,image/png,image/webp"
             className="hidden"
-            onChange={handleFileUpload}
+            onChange={(e) => {
+              handleFileUpload(e);
+              e.target.value = '';
+            }}
             disabled={photos.length >= 30}
           />
           <Button
@@ -134,6 +137,7 @@ const Sidebar: React.FC = () => {
             className="w-full"
             icon={<Plus size={16} />}
             disabled={photos.length >= 30}
+            as="span"
           >
             Add photos
           </Button>

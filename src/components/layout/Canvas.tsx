@@ -32,15 +32,18 @@ const Canvas: React.FC = () => {
           <p className="text-sm text-[var(--color-text-muted)] mb-6">
             Supports JPG, PNG, WebP · 2–30 photos
           </p>
-          <label>
+          <label className="cursor-pointer">
             <input
               type="file"
               multiple
               accept="image/jpeg,image/png,image/webp"
               className="hidden"
-              onChange={handleFileUpload}
+              onChange={(e) => {
+                handleFileUpload(e);
+                e.target.value = '';
+              }}
             />
-            <Button variant="secondary" size="lg">
+            <Button variant="secondary" size="lg" as="span">
               Browse files
             </Button>
           </label>

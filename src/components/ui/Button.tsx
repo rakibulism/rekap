@@ -1,9 +1,11 @@
 import React from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   icon?: React.ReactNode;
+  as?: any;
+  disabled?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,6 +14,8 @@ const Button: React.FC<ButtonProps> = ({
   size = 'md',
   icon,
   className = '',
+  as: Component = 'button',
+  disabled,
   ...props
 }) => {
   const baseStyles = 'inline-flex items-center justify-center gap-1.5 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed rounded-[var(--radius-sm)]';
@@ -30,13 +34,14 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   return (
-    <button
+    <Component
       className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      disabled={disabled}
       {...props}
     >
       {icon && <span className="flex items-center">{icon}</span>}
       {children}
-    </button>
+    </Component>
   );
 };
 

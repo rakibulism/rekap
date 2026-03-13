@@ -23,17 +23,18 @@ export async function processFiles(files: File[]): Promise<Photo[]> {
 }
 
 function getImageDimensions(url: string): Promise<{ width: number; height: number }> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       resolve({ width: img.naturalWidth, height: img.naturalHeight });
     };
+    img.onerror = () => reject(new Error('Failed to load image for dimensions'));
     img.src = url;
   });
 }
 
 async function generateThumbnail(url: string): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement('canvas');
@@ -56,6 +57,7 @@ async function generateThumbnail(url: string): Promise<string> {
         else resolve(url);
       }, 'image/webp', 0.8);
     };
+    img.onerror = () => reject(new Error('Failed to load image for thumbnail'));
     img.src = url;
   });
 }
