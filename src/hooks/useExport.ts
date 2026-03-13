@@ -32,8 +32,23 @@ export function useExport() {
 
       const dim = resolutions[settings.aspectRatio];
       
+      // 0. Pre-load all images for better performance
+      const imageMap = new Map<string, HTMLImageElement>();
+      await Promise.all(photos.map(async (photo) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        await new Promise((resolve) => {
+          img.onload = resolve;
+          img.src = photo.objectUrl;
+        });
+        imageMap.set(photo.id, img);
+      }));
+
       // 1. Render frames (One frame per photo)
       for (let i = 0; i < photos.length; i++) {
+        // Pass the pre-loaded image to renderFrame if we modify it, 
+        // OR renderFrame will load it from objectUrl (which is cached by browser anyway)
+        // Let's just rely on the loop being faster since browser cache is warm now.
         await renderFrame(canvas, photos[i], settings, { width: dim.w, height: dim.h });
         
         const blob = await new Promise<Blob>((resolve) => 
@@ -41,7 +56,7 @@ export function useExport() {
         );
 
         frameBlobs.push(blob);
-        setExportProgress(Math.round(((i + 1) / photos.length) * 10)); // Rendering is now very fast
+        setExportProgress(Math.round(((i + 1) / photos.length) * 15)); // First 15% is rendering
       }
 
       // 2. Encode to MP4 (Using FFmpeg framerate to control duration)
@@ -54,7 +69,7 @@ export function useExport() {
 
       const videoBlob = await exportToMp4(frameBlobs, inputFramerate, (progress) => {
         // Encoding is the main work now
-        setExportProgress(10 + Math.round(progress * 0.9));
+        setExportProgress(15 + Math.round(progress * 0.85));
       }, audioBlob);
 
       // 3. Download

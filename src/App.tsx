@@ -6,6 +6,7 @@ import ControlPanel from './components/layout/ControlPanel';
 import Canvas from './components/layout/Canvas';
 import Timeline from './components/layout/Timeline';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { useAudioSync } from './hooks/useAudioSync';
 import MainSidebar from './components/layout/MainSidebar';
 import CommunityHub from './components/community/CommunityHub';
 import ShortcutsModal from './components/ui/ShortcutsModal';
@@ -19,6 +20,7 @@ function App() {
   } = useRekapStore();
 
   useKeyboardShortcuts();
+  useAudioSync();
 
   useEffect(() => {
     let activeTheme = theme;

@@ -72,8 +72,17 @@ export async function exportToMp4(
   );
 
   if (audioBlob) {
-    // libmp3lame or aac for audio. 'aac' is usually built-in.
-    args.push('-c:a', 'aac', '-b:a', '128k', '-map', '0:v:0', '-map', '1:a:0', '-shortest');
+    // aac is more compatible and usually faster than mp3 in this context
+    args.push(
+      '-c:a', 'aac',
+      '-b:a', '128k',
+      '-map', '0:v:0',
+      '-map', '1:a:0',
+      '-shortest'
+    );
+  } else {
+    // Ensure no audio stream is expected if not provided
+    args.push('-an');
   }
 
   args.push('output.mp4');
