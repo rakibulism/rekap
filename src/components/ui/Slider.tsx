@@ -29,7 +29,7 @@ const Slider: React.FC<SliderProps> = ({
           {value}{unit}
         </span>
       </div>
-      <div className="relative flex items-center h-4 group">
+      <div className="relative flex items-center h-6 group">
         <input
           type="range"
           min={min}
@@ -40,29 +40,7 @@ const Slider: React.FC<SliderProps> = ({
           style={{
             background: `linear-gradient(to right, var(--color-interactive) 0%, var(--color-interactive) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
           }}
-          className="w-full h-[3px] appearance-none cursor-pointer outline-none rounded-full
-            [&::-webkit-slider-thumb]:appearance-none
-            [&::-webkit-slider-thumb]:w-3.5
-            [&::-webkit-slider-thumb]:h-3.5
-            [&::-webkit-slider-thumb]:rounded-full
-            [&::-webkit-slider-thumb]:bg-white
-            [&::-webkit-slider-thumb]:border-2
-            [&::-webkit-slider-thumb]:border-[var(--color-interactive)]
-            [&::-webkit-slider-thumb]:shadow-[var(--shadow-xs)]
-            [&::-webkit-slider-thumb]:transition-transform
-            [&::-webkit-slider-thumb]:hover:scale-110
-            [&::-webkit-slider-thumb]:active:scale-120
-            
-            [&::-moz-range-thumb]:appearance-none
-            [&::-moz-range-thumb]:w-3.5
-            [&::-moz-range-thumb]:h-3.5
-            [&::-moz-range-thumb]:rounded-full
-            [&::-moz-range-thumb]:bg-white
-            [&::-moz-range-thumb]:border-2
-            [&::-moz-range-thumb]:border-[var(--color-interactive)]
-            [&::-moz-range-thumb]:shadow-[var(--shadow-xs)]
-            [&::-moz-range-thumb]:border-none
-          "
+          className="rekap-slider"
         />
       </div>
     </div>

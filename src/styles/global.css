@@ -29,3 +29,53 @@
     @apply bg-[var(--color-border-strong)];
   }
 }
+
+@layer components {
+  .rekap-slider {
+    @apply w-full h-1.5 appearance-none cursor-pointer outline-none rounded-full transition-all;
+  }
+
+  .rekap-slider::-webkit-slider-runnable-track {
+    @apply h-1.5 rounded-full;
+  }
+
+  .rekap-slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-white border-2 border-[var(--color-interactive)] shadow-[var(--shadow-sm)] transition-transform -mt-[5px];
+  }
+
+  .rekap-slider:active::-webkit-slider-thumb {
+    @apply scale-125;
+  }
+
+  .rekap-slider::-moz-range-thumb {
+    @apply w-4 h-4 rounded-full bg-white border-2 border-[var(--color-interactive)] shadow-[var(--shadow-sm)] transition-transform border-none cursor-pointer;
+  }
+
+  .rekap-slider:active::-moz-range-thumb {
+    @apply scale-125;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation-duration: 300ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .fade-in {
+    animation-name: fade-in;
+  }
+  .zoom-in-95 {
+    animation-name: zoom-in-95;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoom-in-95 {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
