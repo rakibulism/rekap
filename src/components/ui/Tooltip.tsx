@@ -34,10 +34,10 @@ const Tooltip: React.FC<TooltipProps> = ({
   };
 
   const arrowClasses = {
-    top: 'top-full left-1/2 -translate-x-1/2 border-t-[var(--color-interactive)]',
-    bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-[var(--color-interactive)]',
-    left: 'left-full top-1/2 -translate-y-1/2 border-l-[var(--color-interactive)]',
-    right: 'right-full top-1/2 -translate-y-1/2 border-r-[var(--color-interactive)]',
+    top: 'top-full left-1/2 -translate-x-1/2 border-t-[var(--color-primary)]',
+    bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-[var(--color-primary)]',
+    left: 'left-full top-1/2 -translate-y-1/2 border-l-[var(--color-primary)]',
+    right: 'right-full top-1/2 -translate-y-1/2 border-r-[var(--color-primary)]',
   };
 
   return (
@@ -48,9 +48,9 @@ const Tooltip: React.FC<TooltipProps> = ({
     >
       {children}
       {isVisible && (
-        <div className={`absolute ${positionClasses[position]} px-2 py-1 bg-[var(--color-interactive)] text-[var(--color-text-inverse)] text-[11px] font-medium rounded-[var(--radius-sm)] whitespace-nowrap shadow-[var(--shadow-sm)] z-[100] animate-in fade-in zoom-in-95 duration-150`}>
+        <div className={`absolute ${positionClasses[position]} px-2.5 py-1.5 bg-[var(--color-primary)] text-white text-[11px] font-bold rounded-[var(--radius-sm)] whitespace-nowrap shadow-lg z-[999] animate-in fade-in zoom-in-95 duration-150`}>
           {content}
-          <div className={`absolute border-[4px] border-transparent ${arrowClasses[position]}`} />
+          <div className={`absolute border-[5px] border-transparent ${arrowClasses[position]}`} />
         </div>
       )}
     </div>

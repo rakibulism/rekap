@@ -94,7 +94,7 @@ const Timeline: React.FC = () => {
   const playheadX = (activeIndex * 104) + (playbackProgress * 104);
 
   return (
-    <div className="flex flex-col border-t border-[var(--color-border-default)] bg-[var(--color-bg-page)] overflow-hidden">
+    <div className="flex flex-col border-t border-[var(--color-border-default)] bg-[var(--color-bg-page)] overflow-visible relative z-20">
       {/* Playback Controls Integrated */}
       <PlaybackBar />
 

@@ -38,7 +38,7 @@ const Slider: React.FC<SliderProps> = ({
             value={value}
             onChange={(e) => onChange(parseFloat(e.target.value))}
             style={{
-              background: `linear-gradient(to right, var(--color-interactive) 0%, var(--color-interactive) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
+              background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) ${((value - min) / (max - min)) * 100}%, var(--color-bg-hover) 100%)`
             }}
             className="rekap-slider"
           />
