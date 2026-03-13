@@ -4,9 +4,15 @@ interface TooltipProps {
   content: React.ReactNode;
   children: React.ReactNode;
   delay?: number;
+  position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-const Tooltip: React.FC<TooltipProps> = ({ content, children, delay = 0 }) => {
+const Tooltip: React.FC<TooltipProps> = ({ 
+  content, 
+  children, 
+  delay = 0,
+  position = 'top' 
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [timer, setTimer] = useState<any>(null);
 
@@ -20,6 +26,20 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, delay = 0 }) => {
     setIsVisible(false);
   };
 
+  const positionClasses = {
+    top: 'bottom-full left-1/2 -translate-x-1/2 mb-2',
+    bottom: 'top-full left-1/2 -translate-x-1/2 mt-2',
+    left: 'right-full top-1/2 -translate-y-1/2 mr-2',
+    right: 'left-full top-1/2 -translate-y-1/2 ml-2',
+  };
+
+  const arrowClasses = {
+    top: 'top-full left-1/2 -translate-x-1/2 border-t-[var(--color-interactive)]',
+    bottom: 'bottom-full left-1/2 -translate-x-1/2 border-b-[var(--color-interactive)]',
+    left: 'left-full top-1/2 -translate-y-1/2 border-l-[var(--color-interactive)]',
+    right: 'right-full top-1/2 -translate-y-1/2 border-r-[var(--color-interactive)]',
+  };
+
   return (
     <div 
       className="relative flex items-center" 
@@ -28,9 +48,9 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children, delay = 0 }) => {
     >
       {children}
       {isVisible && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[var(--color-interactive)] text-[var(--color-text-inverse)] text-[11px] font-medium rounded-[var(--radius-sm)] whitespace-nowrap shadow-[var(--shadow-sm)] z-[100] animate-in fade-in zoom-in-95 duration-150">
+        <div className={`absolute ${positionClasses[position]} px-2 py-1 bg-[var(--color-interactive)] text-[var(--color-text-inverse)] text-[11px] font-medium rounded-[var(--radius-sm)] whitespace-nowrap shadow-[var(--shadow-sm)] z-[100] animate-in fade-in zoom-in-95 duration-150`}>
           {content}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 border-[4px] border-transparent border-t-[var(--color-interactive)]" />
+          <div className={`absolute border-[4px] border-transparent ${arrowClasses[position]}`} />
         </div>
       )}
     </div>

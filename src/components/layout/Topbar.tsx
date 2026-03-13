@@ -28,12 +28,12 @@ const Topbar: React.FC = () => {
           Rekap
         </span>
         <div className="flex items-center gap-1 border-l border-[var(--color-border-default)] pl-4">
-          <Tooltip content="Follow on X">
+          <Tooltip content="Follow on X" position="bottom">
             <a href="https://x.com/rakibulism" target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" size="sm" icon={<TwitterLogo size={18} />} />
             </a>
           </Tooltip>
-          <Tooltip content="View GitHub Repo">
+          <Tooltip content="View GitHub Repo" position="bottom">
             <a href="https://github.com/rakibulism/rekap" target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" size="sm" icon={<GithubLogo size={18} />} />
             </a>
@@ -69,7 +69,7 @@ const Topbar: React.FC = () => {
         <div className="h-8 w-px bg-[var(--color-border-default)]" />
 
         <div className="flex items-center bg-[var(--color-bg-panel)] border border-[var(--color-border-default)] rounded-[var(--radius-sm)] p-1">
-          <Tooltip content="Light">
+          <Tooltip content="Light" position="bottom">
             <button 
               onClick={() => setTheme('light')}
               className={`p-1 rounded-[2px] ${theme === 'light' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
@@ -77,7 +77,7 @@ const Topbar: React.FC = () => {
               <Sun size={16} />
             </button>
           </Tooltip>
-          <Tooltip content="Dark">
+          <Tooltip content="Dark" position="bottom">
             <button 
               onClick={() => setTheme('dark')}
               className={`p-1 rounded-[2px] ${theme === 'dark' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
@@ -85,7 +85,7 @@ const Topbar: React.FC = () => {
               <Moon size={16} />
             </button>
           </Tooltip>
-          <Tooltip content="System">
+          <Tooltip content="System" position="bottom">
             <button 
               onClick={() => setTheme('system')}
               className={`p-1 rounded-[2px] ${theme === 'system' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
@@ -95,7 +95,7 @@ const Topbar: React.FC = () => {
           </Tooltip>
         </div>
 
-        <Tooltip content="Keyboard Shortcuts (?)">
+        <Tooltip content="Keyboard Shortcuts (?)" position="bottom">
           <Button variant="ghost" size="sm" onClick={() => setShowShortcuts(true)} icon={<Keyboard size={18} />} />
         </Tooltip>
 

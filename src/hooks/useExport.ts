@@ -4,7 +4,7 @@ import { renderFrame } from '../lib/renderer';
 import { exportToMp4 } from '../lib/encoder';
 
 export function useExport() {
-  const { photos, settings, setExporting, setExportProgress } = useRekapStore();
+  const { photos, settings, audio, setExporting, setExportProgress } = useRekapStore();
   const [error, setError] = useState<string | null>(null);
 
   const startExport = async () => {
@@ -46,10 +46,16 @@ export function useExport() {
 
       // 2. Encode to MP4 (Using FFmpeg framerate to control duration)
       const inputFramerate = 1 / settings.duration;
+      
+      let audioBlob: Blob | null = null;
+      if (audio) {
+        audioBlob = await fetch(audio.url).then(r => r.blob());
+      }
+
       const videoBlob = await exportToMp4(frameBlobs, inputFramerate, (progress) => {
         // Encoding is the main work now
         setExportProgress(10 + Math.round(progress * 0.9));
-      });
+      }, audioBlob);
 
       // 3. Download
       const url = URL.createObjectURL(videoBlob);

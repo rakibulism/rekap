@@ -26,7 +26,8 @@ async function loadFFmpeg() {
 export async function exportToMp4(
   frameBlobs: Blob[],
   inputFramerate: number,
-  onProgress: (p: number) => void
+  onProgress: (p: number) => void,
+  audioBlob?: Blob | null
 ): Promise<Blob> {
   const instance = await loadFFmpeg();
 
@@ -41,21 +42,43 @@ export async function exportToMp4(
     await instance.writeFile(filename, data);
   }
 
+  // Write audio if provided
+  if (audioBlob) {
+    const audioData = new Uint8Array(await audioBlob.arrayBuffer());
+    await instance.writeFile('audio_input', audioData);
+  }
+
   // Run FFmpeg command
   // -framerate 1/duration: treat input images as having this framerate
   // -i: input pattern
   // -c:v libx264: H.264 codec
-  // -r 30: fixed output framerate (important for compatibility)
-  // -preset ultrafast: fastest encoding (slightly larger file size but much better speed)
-  await instance.exec([
+  // -r 30: fixed output framerate
+  // -preset ultrafast: fastest encoding
+  // -shortest: stop when the shortest stream ends (usually the images)
+  const args = [
     '-framerate', inputFramerate.toString(),
     '-i', 'frame%05d.png',
+  ];
+
+  if (audioBlob) {
+    args.push('-i', 'audio_input');
+  }
+
+  args.push(
     '-c:v', 'libx264',
     '-preset', 'ultrafast',
     '-pix_fmt', 'yuv420p',
-    '-r', '30',
-    'output.mp4'
-  ]);
+    '-r', '30'
+  );
+
+  if (audioBlob) {
+    // libmp3lame or aac for audio. 'aac' is usually built-in.
+    args.push('-c:a', 'aac', '-b:a', '128k', '-map', '0:v:0', '-map', '1:a:0', '-shortest');
+  }
+
+  args.push('output.mp4');
+
+  await instance.exec(args);
 
   // Read the result
   const data = await instance.readFile('output.mp4');
@@ -63,6 +86,9 @@ export async function exportToMp4(
   // Cleanup virtual files
   for (let i = 0; i < frameBlobs.length; i++) {
     await instance.deleteFile(`frame${i.toString().padStart(5, '0')}.png`);
+  }
+  if (audioBlob) {
+    await instance.deleteFile('audio_input');
   }
   await instance.deleteFile('output.mp4');
 

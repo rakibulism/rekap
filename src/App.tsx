@@ -11,7 +11,8 @@ import ShortcutsModal from './components/ui/ShortcutsModal';
 function App() {
   const { 
     theme, isPlaying, photos, activeIndex, setActiveIndex, 
-    settings, playbackSpeed, showShortcuts, setShowShortcuts 
+    settings, playbackSpeed, setPlaybackProgress,
+    showShortcuts, setShowShortcuts 
   } = useRekapStore();
 
   useKeyboardShortcuts();
@@ -36,14 +37,36 @@ function App() {
   }, [theme]);
 
   useEffect(() => {
-    let interval: any;
-    if (isPlaying && photos.length > 1) {
-      interval = setInterval(() => {
-        setActiveIndex((activeIndex + 1) % photos.length);
-      }, (settings.duration / playbackSpeed) * 1000);
+    let requestId: number;
+    let lastTime: number;
+    
+    if (isPlaying && photos.length > 0) {
+      lastTime = performance.now();
+      
+      const update = (time: number) => {
+        const delta = (time - lastTime) / 1000;
+        const totalSlideDuration = settings.duration / playbackSpeed;
+        
+        setPlaybackProgress((prev) => {
+          const next = prev + (delta / totalSlideDuration);
+          if (next >= 1) {
+            setActiveIndex((activeIndex + 1) % photos.length);
+            return 0;
+          }
+          return next;
+        });
+        
+        lastTime = time;
+        requestId = requestAnimationFrame(update);
+      };
+      
+      requestId = requestAnimationFrame(update);
+    } else {
+      setPlaybackProgress(0);
     }
-    return () => clearInterval(interval);
-  }, [isPlaying, activeIndex, photos.length, settings.duration, playbackSpeed, setActiveIndex]);
+    
+    return () => cancelAnimationFrame(requestId);
+  }, [isPlaying, photos.length, settings.duration, playbackSpeed, activeIndex, setActiveIndex, setPlaybackProgress]);
 
   return (
     <div className="flex flex-col h-screen bg-[var(--color-bg-page)] text-[var(--color-text-primary)] overflow-hidden font-sans">

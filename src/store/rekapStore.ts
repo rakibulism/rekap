@@ -11,6 +11,9 @@ interface RekapStore {
   isPlaying: boolean;
   isExporting: boolean;
   exportProgress: number;
+  playbackProgress: number;
+
+  audio: { url: string; name: string } | null;
 
   // Actions
   addPhotos: (newPhotos: Photo[]) => void;
@@ -23,7 +26,9 @@ interface RekapStore {
   setExporting: (v: boolean) => void;
   setExportProgress: (p: number) => void;
   setPlaybackSpeed: (speed: number) => void;
+  setPlaybackProgress: (p: number | ((prev: number) => number)) => void;
   setShowShortcuts: (show: boolean) => void;
+  setAudio: (audio: { url: string; name: string } | null) => void;
 }
 
 export const useRekapStore = create<RekapStore>((set) => ({
@@ -49,6 +54,9 @@ export const useRekapStore = create<RekapStore>((set) => ({
   isPlaying: false,
   isExporting: false,
   exportProgress: 0,
+  playbackProgress: 0,
+
+  audio: null,
 
   addPhotos: (newPhotos) =>
     set((state) => ({
@@ -96,4 +104,9 @@ export const useRekapStore = create<RekapStore>((set) => ({
   setExportProgress: (p) => set({ exportProgress: p }),
   setPlaybackSpeed: (speed) => set({ playbackSpeed: speed }),
   setShowShortcuts: (show) => set({ showShortcuts: show }),
+  setPlaybackProgress: (p) => 
+    set((state) => ({ 
+      playbackProgress: typeof p === 'function' ? p(state.playbackProgress) : p 
+    })),
+  setAudio: (audio) => set({ audio }),
 }));
