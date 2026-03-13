@@ -39,8 +39,7 @@ export const COMMUNITY_TRACKS: CommunityTrack[] = audioFiles.map(file => ({
   name: formatName(file),
   filename: file,
   // Assuming Vite static asset handling or public folder. 
-  // If in src/pro/audio, we might need import.meta.url or move to public.
-  // Given previous turns, let's use the absolute-relative path that Vite handles.
-  url: `/src/pro/audio/${file}`,
+  // Assets moved to public/pro/audio
+  url: `/pro/audio/${file}`,
   tags: file.toLowerCase().split(/[-_.]/)
 }));
