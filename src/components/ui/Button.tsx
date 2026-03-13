@@ -6,6 +6,7 @@ interface ButtonProps extends React.HTMLAttributes<HTMLElement> {
   icon?: React.ReactNode;
   as?: any;
   disabled?: boolean;
+  progress?: number;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,9 +17,10 @@ const Button: React.FC<ButtonProps> = ({
   className = '',
   as: Component = 'button',
   disabled,
+  progress,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center gap-1.5 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed rounded-[var(--radius-sm)]';
+  const baseStyles = 'inline-flex items-center justify-center gap-1.5 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed rounded-[var(--radius-sm)] relative overflow-hidden';
   
   const variantStyles = {
     primary: 'bg-[var(--color-interactive)] text-[var(--color-text-inverse)] enabled:hover:bg-opacity-90',
@@ -39,8 +41,16 @@ const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
       {...props}
     >
-      {icon && <span className="flex items-center">{icon}</span>}
-      {children}
+      {progress !== undefined && progress > 0 && (
+        <span 
+          className="absolute left-0 top-0 bottom-0 bg-white/20 transition-all duration-300 pointer-events-none"
+          style={{ width: `${progress}%` }}
+        />
+      )}
+      <span className="relative z-10 flex items-center gap-1.5">
+        {icon && <span className="flex items-center">{icon}</span>}
+        {children}
+      </span>
     </Component>
   );
 };

@@ -122,7 +122,8 @@ const Topbar: React.FC = () => {
           icon={<Export size={18} weight="bold" />}
           onClick={startExport}
           disabled={isExporting}
-          className="min-w-[100px]"
+          className={`min-w-[100px] transition-all ${isExporting ? 'animate-pulse' : ''}`}
+          progress={isExporting ? exportProgress : 0}
         >
           {isExporting ? `${exportProgress}%` : 'Export'}
         </Button>
