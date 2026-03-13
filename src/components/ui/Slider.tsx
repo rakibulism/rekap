@@ -21,14 +21,16 @@ const Slider: React.FC<SliderProps> = ({
 }) => {
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="flex justify-between items-center">
-        <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--color-text-muted)]">
-          {label}
-        </label>
-        <span className="text-[13px] tabular-nums text-[var(--color-text-primary)]">
-          {value}{unit}
-        </span>
-      </div>
+      {label && (
+        <div className="flex justify-between items-center">
+          <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-[var(--color-text-muted)]">
+            {label}
+          </label>
+          <span className="text-[13px] tabular-nums text-[var(--color-text-primary)]">
+            {value}{unit}
+          </span>
+        </div>
+      )}
       <div className="relative flex items-center h-6 group">
         <input
           type="range"

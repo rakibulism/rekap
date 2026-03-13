@@ -1,12 +1,16 @@
 import React from 'react';
 import { useRekapStore } from '../../store/rekapStore';
-import { Sun, Moon, Export } from 'phosphor-react';
+import { Sun, Moon, Export, GithubLogo, TwitterLogo, Keyboard, Monitor } from 'phosphor-react';
 import Button from '../ui/Button';
 import SegmentedControl from '../ui/SegmentedControl';
+import Tooltip from '../ui/Tooltip';
 import { useExport } from '../../hooks/useExport';
 
 const Topbar: React.FC = () => {
-  const { theme, toggleTheme, settings, updateSettings, isExporting, exportProgress } = useRekapStore();
+  const { 
+    theme, setTheme, settings, updateSettings, 
+    isExporting, exportProgress, setShowShortcuts 
+  } = useRekapStore();
   const { startExport } = useExport();
 
   const aspectRatioOptions = [
@@ -19,10 +23,22 @@ const Topbar: React.FC = () => {
 
   return (
     <header className="h-12 border-b border-[var(--color-border-default)] flex items-center justify-between px-4 bg-[var(--color-bg-page)] z-10">
-      <div className="flex items-center gap-2">
-        <span className="text-[16px] font-semibold text-[var(--color-text-primary)] tracking-tight">
+      <div className="flex items-center gap-4">
+        <span className="text-[16px] font-semibold text-[var(--color-text-primary)] tracking-tight mr-2">
           Rekap
         </span>
+        <div className="flex items-center gap-1 border-l border-[var(--color-border-default)] pl-4">
+          <Tooltip content="Follow on X">
+            <a href="https://x.com/rakibulism" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" size="sm" icon={<TwitterLogo size={18} />} />
+            </a>
+          </Tooltip>
+          <Tooltip content="View GitHub Repo">
+            <a href="https://github.com/rakibulism/rekap" target="_blank" rel="noopener noreferrer">
+              <Button variant="ghost" size="sm" icon={<GithubLogo size={18} />} />
+            </a>
+          </Tooltip>
+        </div>
       </div>
 
       <div className="flex-1 flex justify-center">
@@ -35,12 +51,12 @@ const Topbar: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="flex items-center bg-[var(--color-bg-hover)] rounded-[var(--radius-sm)] p-1">
+        <div className="flex items-center bg-[var(--color-bg-panel)] border border-[var(--color-border-default)] rounded-[var(--radius-sm)] p-1">
           {(['1x', '2x'] as const).map((q) => (
             <button
               key={q}
               onClick={() => updateSettings({ exportQuality: q })}
-              className={`px-2 h-6 text-[11px] font-medium rounded-[2px] transition-all
+              className={`px-2 h-6 text-[11px] font-semibold rounded-[2px] transition-all
                 ${settings.exportQuality === q 
                   ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' 
                   : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]'}`}
@@ -50,13 +66,39 @@ const Topbar: React.FC = () => {
           ))}
         </div>
 
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={toggleTheme}
-          icon={theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          aria-label="Toggle theme"
-        />
+        <div className="h-8 w-px bg-[var(--color-border-default)]" />
+
+        <div className="flex items-center bg-[var(--color-bg-panel)] border border-[var(--color-border-default)] rounded-[var(--radius-sm)] p-1">
+          <Tooltip content="Light">
+            <button 
+              onClick={() => setTheme('light')}
+              className={`p-1 rounded-[2px] ${theme === 'light' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
+            >
+              <Sun size={16} />
+            </button>
+          </Tooltip>
+          <Tooltip content="Dark">
+            <button 
+              onClick={() => setTheme('dark')}
+              className={`p-1 rounded-[2px] ${theme === 'dark' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
+            >
+              <Moon size={16} />
+            </button>
+          </Tooltip>
+          <Tooltip content="System">
+            <button 
+              onClick={() => setTheme('system')}
+              className={`p-1 rounded-[2px] ${theme === 'system' ? 'bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] shadow-sm' : 'text-[var(--color-text-muted)]'}`}
+            >
+              <Monitor size={16} />
+            </button>
+          </Tooltip>
+        </div>
+
+        <Tooltip content="Keyboard Shortcuts (?)">
+          <Button variant="ghost" size="sm" onClick={() => setShowShortcuts(true)} icon={<Keyboard size={18} />} />
+        </Tooltip>
+
         <Button
           variant="primary"
           size="md"

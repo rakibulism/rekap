@@ -5,7 +5,9 @@ interface RekapStore {
   photos: Photo[];
   activeIndex: number;
   settings: RekapSettings;
-  theme: Theme;
+  theme: Theme | 'system';
+  playbackSpeed: number;
+  showShortcuts: boolean;
   isPlaying: boolean;
   isExporting: boolean;
   exportProgress: number;
@@ -16,10 +18,12 @@ interface RekapStore {
   reorderPhotos: (startIndex: number, endIndex: number) => void;
   setActiveIndex: (index: number) => void;
   updateSettings: (patch: Partial<RekapSettings>) => void;
-  toggleTheme: () => void;
+  setTheme: (theme: Theme | 'system') => void;
   setPlaying: (v: boolean) => void;
   setExporting: (v: boolean) => void;
   setExportProgress: (p: number) => void;
+  setPlaybackSpeed: (speed: number) => void;
+  setShowShortcuts: (show: boolean) => void;
 }
 
 export const useRekapStore = create<RekapStore>((set) => ({
@@ -39,7 +43,9 @@ export const useRekapStore = create<RekapStore>((set) => ({
     imageFit: 'contain',
     exportQuality: '2x',
   },
-  theme: (localStorage.getItem('rekap-theme') as Theme) || 'light',
+  theme: (localStorage.getItem('rekap-theme') as Theme | 'system') || 'system',
+  playbackSpeed: 1,
+  showShortcuts: false,
   isPlaying: false,
   isExporting: false,
   exportProgress: 0,
@@ -80,15 +86,14 @@ export const useRekapStore = create<RekapStore>((set) => ({
       settings: { ...state.settings, ...patch },
     })),
 
-  toggleTheme: () =>
-    set((state) => {
-      const newTheme = state.theme === 'light' ? 'dark' : 'light';
-      localStorage.setItem('rekap-theme', newTheme);
-      document.documentElement.setAttribute('data-theme', newTheme);
-      return { theme: newTheme };
-    }),
+  setTheme: (theme) => {
+    localStorage.setItem('rekap-theme', theme);
+    set({ theme });
+  },
 
   setPlaying: (v) => set({ isPlaying: v }),
   setExporting: (v) => set({ isExporting: v }),
   setExportProgress: (p) => set({ exportProgress: p }),
+  setPlaybackSpeed: (speed) => set({ playbackSpeed: speed }),
+  setShowShortcuts: (show) => set({ showShortcuts: show }),
 }));
