@@ -17,7 +17,6 @@ export async function exportWithWebCodecs(
       width,
       height,
     },
-    // Audio configuration if audioBlob is provided
     audio: audioBlob ? {
       codec: 'aac',
       sampleRate: 44100,
@@ -26,27 +25,66 @@ export async function exportWithWebCodecs(
     fastStart: 'fragmented',
   });
 
-  // 2. Initialize Video Encoder
+  // 2. Initialize Encoders
   const videoEncoder = new VideoEncoder({
     output: (chunk, metadata) => muxer.addVideoChunk(chunk, metadata),
     error: (e) => console.error('VideoEncoder error:', e),
   });
 
   videoEncoder.configure({
-    codec: 'avc1.4d002a', // H.264 Main Profile
+    codec: 'avc1.4d002a',
     width,
     height,
-    bitrate: 5_000_000, // 5 Mbps
+    bitrate: 5_000_000,
     framerate: 30,
     hardwareAcceleration: 'prefer-hardware',
   });
 
-  // 3. Process Video Frames
+  let audioEncoder: AudioEncoder | null = null;
+  if (audioBlob) {
+    audioEncoder = new AudioEncoder({
+      output: (chunk, metadata) => muxer.addAudioChunk(chunk, metadata),
+      error: (e) => console.error('AudioEncoder error:', e),
+    });
+    audioEncoder.configure({
+      codec: 'mp4a.40.2', // AAC-LC
+      numberOfChannels: 2,
+      sampleRate: 44100,
+      bitrate: 128_000,
+    });
+  }
+
+  // 3. Process Audio (Decode first)
+  if (audioBlob && audioEncoder) {
+    const audioContext = new OfflineAudioContext(2, 44100 * (frameBlobs.length * durationPerFrame), 44100);
+    const audioBuffer = await audioContext.decodeAudioData(await audioBlob.arrayBuffer());
+    
+    // Feed audio in chunks
+    const totalSamples = audioBuffer.length;
+    const samplesPerChunk = 1024;
+    for (let offset = 0; offset < totalSamples; offset += samplesPerChunk) {
+      const length = Math.min(samplesPerChunk, totalSamples - offset);
+      const data = new Float32Array(length * 2);
+      data.set(audioBuffer.getChannelData(0).subarray(offset, offset + length), 0);
+      data.set(audioBuffer.getChannelData(1).subarray(offset, offset + length), length);
+
+      const audioData = new AudioData({
+        format: 'f32-planar',
+        sampleRate: 44100,
+        numberOfFrames: length,
+        numberOfChannels: 2,
+        timestamp: (offset / 44100) * 1_000_000,
+        data: data.buffer
+      });
+      audioEncoder.encode(audioData);
+      audioData.close();
+    }
+    await audioEncoder.flush();
+  }
+
+  // 4. Process Video Frames
   for (let i = 0; i < frameBlobs.length; i++) {
     const bitmap = await createImageBitmap(frameBlobs[i]);
-    
-    // We want each slide to show for the full duration
-    // WebCodecs expects a stream, so we'll feed it enough frames to fill the time at 30fps
     const framesToFeed = Math.max(1, Math.round(durationPerFrame * 30));
     
     for (let j = 0; j < framesToFeed; j++) {
@@ -60,11 +98,6 @@ export async function exportWithWebCodecs(
     onProgress(Math.round(((i + 1) / frameBlobs.length) * 100));
   }
 
-  // 4. Handle Audio (Advanced: requires decoding blob and re-encoding for mp4-muxer)
-  // For now, if audio exists, we'll suggest using the mp4-muxer's audio capabilities 
-  // or stick to the video-only high speed first if complex.
-  // Actually, WebCodecs AudioEncoder is needed here.
-  
   await videoEncoder.flush();
   muxer.finalize();
 
